@@ -1,0 +1,7 @@
+android/build/
+android/signing/
+*.jks
+*.keystore
+*.idsig
+local.properties
+.env

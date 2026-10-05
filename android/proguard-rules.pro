@@ -1,0 +1,3 @@
+-keep public class org.youthorchestra.tuner.MainActivity extends android.app.Activity { public <init>(); }
+-keepattributes *Annotation*
+-dontwarn java.lang.invoke.**
