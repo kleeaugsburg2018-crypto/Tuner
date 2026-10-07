@@ -11,7 +11,7 @@ import android.widget.Toast;
 import java.io.*;
 import java.util.*;
 
-/** An offline-only trusted WebView; external lessons always leave the WebView. */
+/** Offline-only trusted WebView. Network navigation is blocked; microphone audio stays local. */
 public final class MainActivity extends Activity {
  private static final String HOST="appassets.androidplatform.net";
  private static final String HOME="https://"+HOST+"/assets/index.html";
@@ -32,7 +32,7 @@ public final class MainActivity extends Activity {
   });web.loadUrl(HOME);
  }
  private WebResourceResponse blocked(){return new WebResourceResponse("text/plain","UTF-8",403,"Blocked",Collections.emptyMap(),new ByteArrayInputStream(new byte[0]));}
- private void openExternal(Uri uri){if(!"https".equals(uri.getScheme()))return;String h=uri.getHost();if(!"www.youtube.com".equals(h)&&!"a440-studio-tuner.k-lee-augsburg-2018.chatgpt.site".equals(h))return;try{Intent i=new Intent(Intent.ACTION_VIEW,uri);i.addCategory(Intent.CATEGORY_BROWSABLE);startActivity(i);}catch(android.content.ActivityNotFoundException e){Toast.makeText(this,"Install a browser or YouTube to open this link.",Toast.LENGTH_LONG).show();}}
+ private void openExternal(Uri uri){Toast.makeText(this,"Youth Orchestra works offline. External links are disabled.",Toast.LENGTH_SHORT).show();}
  @Override public void onRequestPermissionsResult(int code,String[] permissions,int[] results){super.onRequestPermissionsResult(code,permissions,results);if(code==11&&pending!=null){if(results.length>0&&results[0]==PackageManager.PERMISSION_GRANTED)pending.grant(new String[]{PermissionRequest.RESOURCE_AUDIO_CAPTURE});else pending.deny();pending=null;}}
  @Override protected void onPause(){if(web!=null){web.evaluateJavascript("if(typeof stopListening==='function')stopListening();if(typeof stopTone==='function')stopTone();",null);web.onPause();}super.onPause();}
  @Override protected void onResume(){super.onResume();if(web!=null)web.onResume();}
