@@ -21,7 +21,7 @@ if not password.exists():password.write_text(secrets.token_urlsafe(32));os.chmod
 env=os.environ.copy();env['YO_KEY_PASSWORD']=password.read_text().strip()
 if not (sign/'release.jks').exists():
  subprocess.run(['keytool','-genkeypair','-keystore',str(sign/'release.jks'),'-storepass:env','YO_KEY_PASSWORD','-keypass:env','YO_KEY_PASSWORD','-alias','youth-orchestra','-keyalg','RSA','-keysize','3072','-validity','10000','-dname','CN=Youth Orchestra, OU=Music Education'],check=True,env=env)
-out=root/'Youth-Orchestra-1.0.1.apk'
+out=root/'Youth-Orchestra-1.0.2.apk'
 subprocess.run([str(tools/'apksigner'),'sign','--ks',str(sign/'release.jks'),'--ks-key-alias','youth-orchestra','--ks-pass','env:YO_KEY_PASSWORD','--out',str(out),str(build/'aligned.apk')],check=True,env=env)
 run(tools/'apksigner','verify','--verbose',out)
 print(out)
